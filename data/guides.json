@@ -1,0 +1,70 @@
+{
+  "guides": [
+    {
+      "id": "samsung-smart-tv",
+      "device": "samsung-tv",
+      "title": "Samsung Smart TV Setup Guide",
+      "description": "Complete setup instructions for Samsung Smart TVs",
+      "topics": [
+        { "id": "install", "title": "How to Install the App" },
+        { "id": "configure", "title": "Configure Your Connection" },
+        { "id": "activate", "title": "Activate Your Subscription" }
+      ]
+    },
+    {
+      "id": "fire-tv",
+      "device": "fire-tv",
+      "title": "Amazon Fire TV Setup Guide",
+      "description": "Complete setup instructions for Fire TV devices",
+      "topics": [
+        { "id": "install", "title": "How to Install the App" },
+        { "id": "configure", "title": "Configure Your Connection" },
+        { "id": "activate", "title": "Activate Your Subscription" }
+      ]
+    },
+    {
+      "id": "android-box",
+      "device": "android-box",
+      "title": "Android TV Box Setup Guide",
+      "description": "Complete setup instructions for Android TV boxes",
+      "topics": [
+        { "id": "install", "title": "How to Install the App" },
+        { "id": "configure", "title": "Configure Your Connection" },
+        { "id": "activate", "title": "Activate Your Subscription" }
+      ]
+    },
+    {
+      "id": "ios",
+      "device": "ios",
+      "title": "iOS/iPhone Setup Guide",
+      "description": "Complete setup instructions for iPhone and iPad",
+      "topics": [
+        { "id": "install", "title": "How to Install the App" },
+        { "id": "configure", "title": "Configure Your Connection" },
+        { "id": "activate", "title": "Activate Your Subscription" }
+      ]
+    },
+    {
+      "id": "android",
+      "device": "android",
+      "title": "Android Mobile Setup Guide",
+      "description": "Complete setup instructions for Android phones and tablets",
+      "topics": [
+        { "id": "install", "title": "How to Install the App" },
+        { "id": "configure", "title": "Configure Your Connection" },
+        { "id": "activate", "title": "Activate Your Subscription" }
+      ]
+    },
+    {
+      "id": "pc",
+      "device": "pc",
+      "title": "PC/Mac Setup Guide",
+      "description": "Complete setup instructions for Windows and Mac computers",
+      "topics": [
+        { "id": "install", "title": "How to Install the App" },
+        { "id": "configure", "title": "Configure Your Connection" },
+        { "id": "activate", "title": "Activate Your Subscription" }
+      ]
+    }
+  ]
+}

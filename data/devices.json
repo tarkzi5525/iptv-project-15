@@ -1,0 +1,12 @@
+{
+  "devices": [
+    { "id": "samsung-tv", "name": "Smart TV", "brands": "Samsung, LG, Sony", "setupTime": "5 min", "difficulty": "Easy", "icon": "📺" },
+    { "id": "fire-tv", "name": "Fire TV", "brands": "Fire TV Stick, Cube", "setupTime": "3 min", "difficulty": "Easy", "icon": "🔥" },
+    { "id": "android-box", "name": "Android Box", "brands": "Nvidia Shield, Mi Box", "setupTime": "10 min", "difficulty": "Medium", "icon": "📱" },
+    { "id": "apple-tv", "name": "Apple TV", "brands": "Apple TV 4K, HD", "setupTime": "5 min", "difficulty": "Easy", "icon": "🍎" },
+    { "id": "mobile-ios", "name": "iOS", "brands": "iPhone, iPad", "setupTime": "2 min", "difficulty": "Easy", "icon": "📱" },
+    { "id": "mobile-android", "name": "Android", "brands": "Phone, Tablet", "setupTime": "2 min", "difficulty": "Easy", "icon": "🤖" },
+    { "id": "pc", "name": "PC/Mac", "brands": "Windows, macOS", "setupTime": "5 min", "difficulty": "Easy", "icon": "💻" },
+    { "id": "mag-box", "name": "MAG Box", "brands": "MAG 254, 322", "setupTime": "10 min", "difficulty": "Medium", "icon": "📺" }
+  ]
+}

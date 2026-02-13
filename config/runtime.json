@@ -1,0 +1,7 @@
+{
+  "mode": "preview",
+  "apiUrl": "",
+  "whatsapp": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "plans": [
+    {
+      "id": "standard",
+      "name": "Standard",
+      "tier": "standard",
+      "prices": {
+        "1": 9,
+        "3": 15,
+        "6": 45,
+        "12": 60
+      },
+      "features": [
+        "HD Quality Streaming",
+        "1 Device Simultaneous",
+        "5,000+ Channels",
+        "Electronic Program Guide",
+        "Catch-up TV (7 Days)"
+      ]
+    },
+    {
+      "id": "premium",
+      "name": "Premium",
+      "tier": "premium",
+      "popular": true,
+      "prices": {
+        "1": 14,
+        "3": 25,
+        "6": 65,
+        "12": 90
+      },
+      "features": [
+        "Full HD + 4K Support",
+        "2 Devices Simultaneous",
+        "10,000+ Channels",
+        "Extended EPG (14 Days)",
+        "Priority Support"
+      ]
+    },
+    {
+      "id": "ultra",
+      "name": "Ultra",
+      "tier": "ultra",
+      "prices": {
+        "1": 19,
+        "3": 35,
+        "6": 85,
+        "12": 120
+      },
+      "features": [
+        "4K UHD + HDR Support",
+        "4 Devices Simultaneous",
+        "15,000+ Channels",
+        "Full EPG (30 Days)",
+        "Cloud DVR (50 Hours)"
+      ]
+    }
+  ]
+}

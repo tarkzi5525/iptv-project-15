@@ -1,0 +1,34 @@
+{
+  "faqs": [
+    {
+      "id": "trial",
+      "question": "How do I get a free trial?",
+      "answer": "Simply click the Free Trial button and you'll be connected to our WhatsApp support for immediate access. We offer both 12-hour and 24-hour free trials."
+    },
+    {
+      "id": "setup",
+      "question": "How easy is it to set up?",
+      "answer": "Setup takes just 2-10 minutes depending on your device. We provide detailed guides and 24/7 WhatsApp support to help you get started quickly."
+    },
+    {
+      "id": "devices",
+      "question": "How many devices can I use?",
+      "answer": "Standard plan: 1 device, Premium plan: 2 devices, Ultra plan: 4 devices simultaneously."
+    },
+    {
+      "id": "buffering",
+      "question": "What if I experience buffering?",
+      "answer": "Our anti-buffering technology ensures smooth streaming. If you experience any issues, contact our 24/7 support via WhatsApp."
+    },
+    {
+      "id": "refund",
+      "question": "What is your refund policy?",
+      "answer": "We offer a 7-day money-back guarantee. If you're not completely satisfied, contact our support within 7 days for a full refund."
+    },
+    {
+      "id": "channels",
+      "question": "What channels do you offer?",
+      "answer": "We offer 15,000+ channels including entertainment, sports, movies, news, and international content from around the world."
+    }
+  ]
+}

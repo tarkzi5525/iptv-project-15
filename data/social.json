@@ -1,0 +1,16 @@
+{
+  "whatsapp": {
+    "number": "1234567890",
+    "prefilledMessages": {
+      "trial12h": "Hello, I want to get a free 12-hour trial",
+      "trial24h": "Hello, I want to get a free 24-hour trial",
+      "checkout": "Hello, I want to purchase {plan} {duration} plan for {price}. My name is {name}, email is {email}, and I'll be using it on {device}."
+    }
+  },
+  "social": [
+    { "platform": "x", "url": "https://x.com/nexusiptv" },
+    { "platform": "youtube", "url": "https://youtube.com/@nexusiptv" },
+    { "platform": "instagram", "url": "https://instagram.com/nexusiptv" },
+    { "platform": "telegram", "url": "https://t.me/nexusiptv" }
+  ]
+}

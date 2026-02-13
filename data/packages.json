@@ -1,0 +1,10 @@
+{
+  "packages": [
+    { "id": "entertainment", "name": "Entertainment", "channels": "3,000+", "icon": "📺", "description": "Popular entertainment channels" },
+    { "id": "sports", "name": "Sports", "channels": "500+", "icon": "🏆", "description": "Live sports and events" },
+    { "id": "news", "name": "News", "channels": "200+", "icon": "📰", "description": "24/7 news coverage" },
+    { "id": "movies", "name": "Movies", "channels": "1,000+", "icon": "🎬", "description": "On-demand movie library" },
+    { "id": "international", "name": "International", "channels": "2,000+", "icon": "🌍", "description": "Channels from around the world" },
+    { "id": "kids", "name": "Kids", "channels": "150+", "icon": "👶", "description": "Children's programming" }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "slug": "best-iptv-service-2025",
+      "title": "Why NEXUSIPTV is the Best IPTV Service in 2025",
+      "excerpt": "Discover why thousands of users choose NEXUSIPTV for their streaming needs.",
+      "content": "In the rapidly evolving world of IPTV services, NEXUSIPTV stands out as a premier choice for viewers seeking quality, reliability, and variety. With over 15,000 channels available in stunning HD and 4K quality, we deliver an unparalleled entertainment experience.",
+      "category": "Reviews",
+      "date": "2025-01-15",
+      "readTime": "5 min"
+    },
+    {
+      "id": "2",
+      "slug": "4k-streaming-guide",
+      "title": "The Complete Guide to 4K Streaming",
+      "excerpt": "Everything you need to know about 4K streaming and how to get the best experience.",
+      "content": "4K resolution offers four times the detail of 1080p HD. This guide explains everything from bandwidth requirements to compatible devices for the ultimate 4K viewing experience.",
+      "category": "Guides",
+      "date": "2025-01-12",
+      "readTime": "8 min"
+    },
+    {
+      "id": "3",
+      "slug": "sports-streaming-iptv",
+      "title": "Watch Live Sports: The Ultimate IPTV Solution",
+      "excerpt": "Never miss a game again with our comprehensive sports streaming package.",
+      "content": "From Premier League to NBA, NFL to Grand Slam tennis - get access to over 500 sports channels with live coverage of major events worldwide.",
+      "category": "Sports",
+      "date": "2025-01-10",
+      "readTime": "4 min"
+    },
+    {
+      "id": "4",
+      "slug": "setup-fire-tv-guide",
+      "title": "How to Setup IPTV on Amazon Fire TV Stick",
+      "excerpt": "Step-by-step guide to installing and configuring IPTV on your Fire TV device.",
+      "content": "Setting up IPTV on your Amazon Fire TV Stick is quick and easy. Follow our detailed guide to get streaming in under 5 minutes.",
+      "category": "Guides",
+      "date": "2025-01-08",
+      "readTime": "6 min"
+    },
+    {
+      "id": "5",
+      "slug": "movies-vod-library",
+      "title": "Explore Our Massive On-Demand Movie Library",
+      "excerpt": "Access thousands of movies on demand with new releases added weekly.",
+      "content": "Our VOD library features over 1,000 movies across all genres, from classic films to the latest blockbusters, all available in HD and 4K quality.",
+      "category": "Entertainment",
+      "date": "2025-01-05",
+      "readTime": "3 min"
+    },
+    {
+      "id": "6",
+      "slug": "anti-buffer-technology",
+      "title": "Understanding Our Anti-Buffer Technology",
+      "excerpt": "How our advanced servers ensure smooth, uninterrupted streaming.",
+      "content": "Learn about the technology behind our anti-buffering system and why it provides the most reliable streaming experience in the industry.",
+      "category": "Technology",
+      "date": "2025-01-03",
+      "readTime": "5 min"
+    },
+    {
+      "id": "7",
+      "slug": "international-channels-guide",
+      "title": "Watch Channels from Around the World",
+      "excerpt": "Access over 2,000 international channels from 50+ countries.",
+      "content": "Stay connected to your home country with our extensive international channel lineup featuring programming from Europe, Asia, Middle East, and more.",
+      "category": "Features",
+      "date": "2025-01-01",
+      "readTime": "4 min"
+    },
+    {
+      "id": "8",
+      "slug": "catch-up-tv-explained",
+      "title": "Never Miss a Show Again with Catch-Up TV",
+      "excerpt": "Our catch-up feature lets you watch programs up to 30 days after they air.",
+      "content": "Gone are the days of missing your favorite shows. With catch-up TV, you can easily view any program that aired in the past week, two weeks, or even a month.",
+      "category": "Features",
+      "date": "2024-12-28",
+      "readTime": "4 min"
+    },
+    {
+      "id": "9",
+      "slug": "multi-device-streaming",
+      "title": "Stream on Multiple Devices Simultaneously",
+      "excerpt": "Watch different channels on up to 4 devices at once with our Ultra plan.",
+      "content": "Family streaming made easy. Our multi-device support allows everyone to watch what they want, when they want, without compromise.",
+      "category": "Features",
+      "date": "2024-12-25",
+      "readTime": "3 min"
+    },
+    {
+      "id": "10",
+      "slug": "epg-guide",
+      "title": "Master the Electronic Program Guide (EPG)",
+      "excerpt": "Navigate channels effortlessly with our comprehensive EPG system.",
+      "content": "Our EPG provides detailed program information for up to 30 days, making it easy to plan your viewing and discover new content.",
+      "category": "Guides",
+      "date": "2024-12-22",
+      "readTime": "5 min"
+    }
+  ]
+}

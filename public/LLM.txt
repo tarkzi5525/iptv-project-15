@@ -1,0 +1,41 @@
+# NEXUSIPTV - Site Information
+
+## Overview
+NEXUSIPTV is a premium licensed IPTV service offering 15,000+ channels in HD and 4K quality with anti-buffering technology.
+
+## Site Summary
+- **Site Name**: NEXUSIPTV
+- **Domain**: nexusiptv.com
+- **Support Email**: support@nexusiptv.com
+- **WhatsApp**: Available for support and trials
+
+## Routes
+- / - Home (Hero, Features, Pricing Preview, Testimonials)
+- /pricing - Full pricing plans (Standard, Premium, Ultra)
+- /packages - Channel packages (Entertainment, Sports, News, Movies)
+- /devices - Supported devices (Smart TV, Fire TV, Android, iOS, PC)
+- /guides - Setup guides for all devices
+- /blog - Blog posts and articles
+- /faq - Frequently asked questions
+- /support - Contact and support options
+- /checkout - Plan selection and checkout
+- /success - Order confirmation
+- /terms - Terms of Service
+- /privacy - Privacy Policy
+- /refund - Refund Policy
+- /dmca - DMCA Policy
+
+## Pricing
+- **Standard**: $9/mo (1M), $15 (3M), $45 (6M), $60 (12M)
+- **Premium**: $14/mo (1M), $25 (3M), $65 (6M), $90 (12M) - Most Popular
+- **Ultra**: $19/mo (1M), $35 (3M), $85 (6M), $120 (12M) - Best Value
+
+## Support
+- 24/7 WhatsApp support available
+- Free trial options (12h and 24h)
+- 7-day money-back guarantee
+- Setup guides for all major devices
+
+## Legal
+- Licensed IPTV service
+- Terms of Service, Privacy Policy, Refund Policy, DMCA Policy available
