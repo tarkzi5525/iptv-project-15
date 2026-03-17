@@ -23,8 +23,9 @@ return [
     'serp_api_key' => getenv('SERP_API_KEY') ?: '',
     // Get a free key at https://serpapi.com
 
-    // ─── DATABASE (blog.json) ──────────────────────────────────────────────────
-    'blog_json_path' => __DIR__ . '/../data/blog.json',
+    // ─── DATABASE ─────────────────────────────────────────────────────────────
+    // Stored INSIDE this folder – does NOT touch any file outside rss-automation/
+    'blog_json_path' => __DIR__ . '/data/articles.json',
 
     // ─── BEHAVIOUR ────────────────────────────────────────────────────────────
     'max_articles_per_run' => (int)(getenv('MAX_ARTICLES') ?: 3),
