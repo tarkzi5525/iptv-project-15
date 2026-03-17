@@ -37,6 +37,11 @@ return [
     'site_niche' => 'IPTV streaming services',
     // Describe your site niche so AI writes relevant content
 
+    // ─── N8N WEBHOOK ──────────────────────────────────────────────────────────
+    // Each new article is POSTed here automatically after being saved locally.
+    'n8n_webhook_url'   => getenv('N8N_WEBHOOK_URL')   ?: 'http://76.13.154.94:32768/workflow/SuhLXtbxbgj8UeMf',
+    'n8n_webhook_token' => getenv('N8N_WEBHOOK_TOKEN') ?: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZjY0ZGFkNS05MDk0LTRhYzUtOGI4ZS01NzEyMTFhN2MwOTMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwianRpIjoiYmE5M2NjMjgtNDA4MS00ZmMwLWE1ZjUtM2ZhNGFiYWYwNTY5IiwiaWF0IjoxNzczNDQ5NTUyLCJleHAiOjE3ODEyMTUyMDB9.YyZADJKv0C9qCyGyYaxF7QU0Am_f_tsNUO_OOKK46AQ',
+
     // ─── LOGGING ──────────────────────────────────────────────────────────────
     'log_file'  => __DIR__ . '/logs/automation.log',
     'log_level' => 'info',   // 'debug' | 'info' | 'error'

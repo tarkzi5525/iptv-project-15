@@ -10,11 +10,15 @@ class DatabaseUpdater
 {
     private string $jsonPath;
     private Logger $log;
+    private string $webhookUrl;
+    private string $webhookToken;
 
-    public function __construct(string $jsonPath, Logger $log)
+    public function __construct(string $jsonPath, Logger $log, string $webhookUrl = '', string $webhookToken = '')
     {
-        $this->jsonPath = $jsonPath;
-        $this->log      = $log;
+        $this->jsonPath     = $jsonPath;
+        $this->log          = $log;
+        $this->webhookUrl   = $webhookUrl;
+        $this->webhookToken = $webhookToken;
     }
 
     /**
@@ -89,12 +93,49 @@ class DatabaseUpdater
         $db['posts'] = $posts;
 
         $this->save($db);
-
         $this->log->info("Article saved to DB – ID: {$nextId}, slug: {$slug}");
+
+        // Push to n8n workflow
+        if ($this->webhookUrl) {
+            $this->pushToN8n($newPost);
+        }
+
         return $newPost;
     }
 
     // ─── helpers ─────────────────────────────────────────────────────────────
+
+    private function pushToN8n(array $post): void
+    {
+        $payload = json_encode($post, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->webhookToken,
+        ];
+
+        $ch = curl_init($this->webhookUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 15,
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error    = curl_error($ch);
+        curl_close($ch);
+
+        if ($error) {
+            $this->log->error("n8n push failed (curl): {$error}");
+        } elseif ($httpCode >= 200 && $httpCode < 300) {
+            $this->log->info("Article pushed to n8n – HTTP {$httpCode}");
+        } else {
+            $this->log->error("n8n push failed – HTTP {$httpCode}: {$response}");
+        }
+    }
 
     private function load(): array
     {

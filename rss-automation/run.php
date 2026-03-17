@@ -58,7 +58,12 @@ $aiClient   = new AiClient($config, $log);
 $metaAnal   = new MetaAnalyzer($aiClient, $config, $log);
 $keywords   = new KeywordResearcher($aiClient, $config, $log);
 $rewriter   = new ArticleRewriter($aiClient, $config, $log);
-$db         = new DatabaseUpdater($config['blog_json_path'], $log);
+$db         = new DatabaseUpdater(
+    $config['blog_json_path'],
+    $log,
+    $config['n8n_webhook_url']   ?? '',
+    $config['n8n_webhook_token'] ?? ''
+);
 
 // ─── Stage 1: Fetch RSS ───────────────────────────────────────────────────────
 
