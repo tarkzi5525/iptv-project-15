@@ -1,0 +1,723 @@
+{
+  "name": "RSS AI News",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Morning Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [60, 740]
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/feed/",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000002",
+      "name": "Tech News Feed",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [240, 740]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000003",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [420, 740]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.link }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000004",
+      "name": "Get HTML Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 740]
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "sourceData": "json",
+        "dataPropertyName": "data",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "h1",
+              "returnValue": "text"
+            },
+            {
+              "key": "content",
+              "cssSelector": "article, .article-content, .entry-content, main",
+              "returnValue": "text"
+            },
+            {
+              "key": "metaDescription",
+              "cssSelector": "meta[name='description']",
+              "returnValue": "attribute",
+              "attribute": "content"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000005",
+      "name": "Extract Content",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [780, 740]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst cleaned = items.map(item => {\n  const content = item.json.content || item.json.data || '';\n  // Remove extra whitespace and HTML remnants\n  const cleanedContent = content\n    .replace(/<[^>]*>/g, '')\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .substring(0, 5000);\n  \n  return {\n    json: {\n      title: item.json.title || '',\n      link: item.json.link || '',\n      content: cleanedContent,\n      pubDate: item.json.pubDate || new Date().toISOString(),\n      metaDescription: item.json.metaDescription || ''\n    }\n  };\n});\n\nreturn cleaned;"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000006",
+      "name": "Clean Sheet",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 740]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.title }}_{{ $now.format('YYYY-MM-DD') }}",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000007",
+      "name": "Download",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [960, 900]
+    },
+    {
+      "parameters": {
+        "operation": "readOrSearch",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "link",
+              "condition": "eq",
+              "keyValue": "={{ $json.link }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000008",
+      "name": "Get item(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [200, 870]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "title": "={{ $json.title }}",
+            "link": "={{ $json.link }}",
+            "content": "={{ $json.content }}",
+            "pubDate": "={{ $json.pubDate }}",
+            "metaDescription": "={{ $json.metaDescription }}",
+            "status": "processed",
+            "processedAt": "={{ $now.toISO() }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000009",
+      "name": "Update row in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [380, 870]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000010",
+      "name": "Analyze Meta Title",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [340, 860]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000011",
+      "name": "Gpt 4.1-mini - Title",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [340, 1000]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    improvedTitle: $input.first().json.output || $input.first().json.text || ''\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000012",
+      "name": "improvedTitle",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 860]
+    },
+    {
+      "parameters": {
+        "jsCode": "const schema = {\n  type: 'object',\n  properties: {\n    title: { type: 'string' },\n    seoScore: { type: 'number' },\n    suggestions: { type: 'array', items: { type: 'string' } }\n  }\n};\nreturn [{ json: { schema } }];"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000013",
+      "name": "Structured Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 860]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze and improve the meta description for this article:\n\nTitle: {{ $json.title }}\nCurrent Description: {{ $json.metaDescription }}\nContent Preview: {{ $json.content.substring(0, 500) }}\n\nProvide an improved SEO meta description (max 160 characters) that is compelling and includes relevant keywords.",
+        "options": {
+          "systemMessage": "You are an expert SEO specialist. Analyze meta descriptions and provide improved versions that are concise, compelling, and optimized for search engines."
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000020",
+      "name": "Analyze Meta Description",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [360, 700]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "temperature": 0.5
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000021",
+      "name": "Gpt 4.1-mini - Desc",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [360, 840]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    approved_description: $input.first().json.output || $input.first().json.text || ''\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000022",
+      "name": "approved_description",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [540, 700]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Perform a competitor analysis for this tech news article:\n\nTitle: {{ $json.title }}\nContent: {{ $json.content.substring(0, 1000) }}\nSource: {{ $json.link }}\n\nAnalyze:\n1. Main topic and category\n2. Target audience\n3. Content angle and unique value\n4. Potential competing articles/topics\n5. Recommendations to make the content more competitive",
+        "options": {
+          "systemMessage": "You are a content strategist and competitor analysis expert. Analyze articles and provide actionable competitive intelligence."
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000030",
+      "name": "Competitor Analysis",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [480, 700]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "temperature": 0.6
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000031",
+      "name": "Gpt 4.1-mini - Competitor",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [480, 840]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    competitor_analysis: $input.first().json.output || $input.first().json.text || ''\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000032",
+      "name": "competitor_analysis output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 700]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Research and identify the best keywords for this article:\n\nTitle: {{ $json.title }}\nContent: {{ $json.content.substring(0, 1000) }}\n\nProvide:\n1. Primary keyword (most important)\n2. 5-10 secondary keywords\n3. Long-tail keywords (3-5)\n4. Search intent classification\n5. Estimated search volume (low/medium/high)\n\nFocus on tech and AI-related keywords that are currently trending.",
+        "options": {
+          "systemMessage": "You are an SEO keyword research expert specializing in technology and AI topics. Use your knowledge to identify high-value, relevant keywords."
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000040",
+      "name": "Keyword Strategy",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [600, 700]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000041",
+      "name": "Gpt 4.1-mini - Keywords",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [600, 840]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "llama-3.1-sonar-small-128k-online"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"user\", \"content\": \"Find current trending keywords and search data for: {{ $json.title }}\"}]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000042",
+      "name": "Perplexity Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 700]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    Keywords_Research: $input.first().json.output || $input.first().json.text || ''\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000043",
+      "name": "Keywords_Research",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 700]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Rewrite and enhance this tech news article for maximum SEO performance and reader engagement:\n\nOriginal Title: {{ $json.title }}\nContent: {{ $json.content }}\nImproved Title: {{ $json.improvedTitle }}\nMeta Description: {{ $json.approved_description }}\nTarget Keywords: {{ $json.Keywords_Research }}\nCompetitor Analysis: {{ $json.competitor_analysis }}\n\nRequirements:\n1. Write a comprehensive, engaging article (800-1200 words)\n2. Use the improved title\n3. Naturally integrate target keywords\n4. Add relevant subheadings (H2, H3)\n5. Include a compelling introduction and conclusion\n6. Format in Markdown\n7. Make it unique, informative, and valuable to readers",
+        "options": {
+          "systemMessage": "You are an expert tech journalist and SEO content writer. Create high-quality, engaging articles that rank well in search engines and provide genuine value to readers. Always write in a clear, professional tone with accurate information."
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000050",
+      "name": "Rewrite Article Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [560, 890]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 2000
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000051",
+      "name": "Gpt 4.1-mini - Rewrite",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [560, 1030]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "written_articles",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "originalTitle": "={{ $json.title }}",
+            "improvedTitle": "={{ $json.improvedTitle }}",
+            "metaDescription": "={{ $json.approved_description }}",
+            "keywords": "={{ $json.Keywords_Research }}",
+            "competitorAnalysis": "={{ $json.competitor_analysis }}",
+            "rewrittenArticle": "={{ $json.output }}",
+            "sourceLink": "={{ $json.link }}",
+            "publishedAt": "={{ $json.pubDate }}",
+            "processedAt": "={{ $now.toISO() }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000052",
+      "name": "written_articles",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [740, 890]
+    }
+  ],
+  "connections": {
+    "Morning Schedule": {
+      "main": [
+        [
+          {
+            "node": "Tech News Feed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tech News Feed": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Get HTML Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get HTML Content": {
+      "main": [
+        [
+          {
+            "node": "Extract Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Content": {
+      "main": [
+        [
+          {
+            "node": "Clean Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Sheet": {
+      "main": [
+        [
+          {
+            "node": "Get item(s) in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Meta Description",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Competitor Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Keyword Strategy",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Meta Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get item(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Meta Title": {
+      "main": [
+        [
+          {
+            "node": "improvedTitle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gpt 4.1-mini - Title": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Meta Title",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "improvedTitle": {
+      "main": [
+        [
+          {
+            "node": "Structured Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Meta Description": {
+      "main": [
+        [
+          {
+            "node": "approved_description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gpt 4.1-mini - Desc": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Meta Description",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "approved_description": {
+      "main": [
+        [
+          {
+            "node": "Rewrite Article Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor Analysis": {
+      "main": [
+        [
+          {
+            "node": "competitor_analysis output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gpt 4.1-mini - Competitor": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Competitor Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "competitor_analysis output": {
+      "main": [
+        [
+          {
+            "node": "Rewrite Article Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keyword Strategy": {
+      "main": [
+        [
+          {
+            "node": "Perplexity Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gpt 4.1-mini - Keywords": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Keyword Strategy",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity Search": {
+      "main": [
+        [
+          {
+            "node": "Keywords_Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keywords_Research": {
+      "main": [
+        [
+          {
+            "node": "Rewrite Article Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rewrite Article Agent": {
+      "main": [
+        [
+          {
+            "node": "written_articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gpt 4.1-mini - Rewrite": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Rewrite Article Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "RSS",
+      "createdAt": "2026-03-17T00:00:00.000Z",
+      "updatedAt": "2026-03-17T00:00:00.000Z"
+    },
+    {
+      "name": "AI",
+      "createdAt": "2026-03-17T00:00:00.000Z",
+      "updatedAt": "2026-03-17T00:00:00.000Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-03-17T00:00:00.000Z",
+  "versionId": "v1"
+}
