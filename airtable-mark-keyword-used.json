@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "={{ $json.airtableKeywordsBase }}",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "KEYWORDS",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.kwRecordId }}",
+            "Status": "used",
+            "Usage Count": 1
+          },
+          "matchingColumns": [
+            "id"
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfb2-037-fixed",
+      "name": "Airtable — Mark Keyword Used",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [
+        3376,
+        288
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "wh39ywLFrSvqWHbH",
+          "name": "Airtable Token"
+        }
+      },
+      "continueOnFail": true
+    }
+  ]
+}
